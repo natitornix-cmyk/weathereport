@@ -96,9 +96,9 @@ def index(request: Request):
         key=lambda e: (e["target_date"], -max((b.edge for b in e["bins"]), default=0)),
     )
     return templates.TemplateResponse(
+        request,
         "index.html",
         {
-            "request": request,
             "events": events,
             "bankroll": settings.bankroll_usd,
             "kelly_frac": settings.kelly_fraction,
