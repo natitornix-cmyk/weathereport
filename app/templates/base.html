@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#0b1020">
+  <title>weathereport</title>
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="apple-touch-icon" href="/static/icon-192.png">
+  <link rel="icon" href="/static/icon-192.png" type="image/png">
+  <link rel="stylesheet" href="/static/style.css">
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => navigator.serviceWorker.register('/sw.js').catch(() => {}));
+    }
+  </script>
+</head>
+<body>
+  <header>
+    <h1>weathereport</h1>
+    <small>edges over Polymarket weather · {{ now.strftime('%Y-%m-%d %H:%MZ') }}</small>
+  </header>
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+  <footer>
+    <small>bankroll ${{ '%.0f'|format(bankroll) }} · ¼-Kelly × {{ kelly_frac }} · min edge {{ '%.0f'|format(edge_threshold*100) }}¢</small>
+  </footer>
+</body>
+</html>

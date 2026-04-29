@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block content %}
+{% if not events %}
+  <p class="empty">Nothing yet. The pipeline runs every 15 min — pull to refresh in a moment.</p>
+{% endif %}
+{% for ev in events %}
+  <article class="event">
+    <header class="event-head">
+      <div class="evt-title">{{ ev.title }}</div>
+      <div class="evt-meta">
+        <span class="badge">{{ ev.station }}</span>
+        <span>{{ ev.target_date }}</span>
+      </div>
+    </header>
+    <table class="bins">
+      <thead>
+        <tr><th>bin</th><th>p</th><th>ask</th><th>edge</th><th>stake</th></tr>
+      </thead>
+      <tbody>
+        {% for b in ev.bins %}
+          <tr class="{% if b.edge > 0.05 %}hot{% endif %}">
+            <td>{{ b.bin_label }}</td>
+            <td>{{ '%.2f'|format(b.our_prob) }}</td>
+            <td>{{ '%.2f'|format(b.market_ask) }}</td>
+            <td><b>{{ '%+.2f'|format(b.edge) }}</b></td>
+            <td>${{ '%.0f'|format(b.stake_usd) }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <a class="bet-btn" href="{{ ev.url }}" target="_blank" rel="noopener">Bet on Polymarket →</a>
+  </article>
+{% endfor %}
+{% endblock %}
